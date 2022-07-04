@@ -1,0 +1,29 @@
+{
+  "name": "sm64-wr-twitter-bot",
+  "version": "1.0.0",
+  "description": "This Twitter bot tweet Super Mario 64 new world records once submitted and verified on speedrun.com.",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node dist/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hippolyte42/SM64-WR-twitter-bot.git"
+  },
+  "author": "@hippolytejacque",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hippolyte42/SM64-WR-twitter-bot/issues"
+  },
+  "homepage": "https://github.com/hippolyte42/SM64-WR-twitter-bot#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.1",
+    "tslint": "^6.1.3",
+    "twitter-api-v2": "^1.12.3",
+    "typescript": "^4.7.4"
+  }
+}
