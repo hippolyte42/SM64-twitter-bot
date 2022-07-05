@@ -5,6 +5,7 @@ import {
   getCategory,
   getPlayerName,
   initData,
+  ISO8601durationToString,
 } from "./speedrunApiUtils";
 dotenv.config();
 
@@ -35,7 +36,9 @@ const main = async () => {
       const top1Name = await getPlayerName(
         categoryData.data[0].runs[0].run.players[0].id
       );
-      const top1Time = categoryData.data[0].runs[0].run.times.realtime;
+      const top1Time = ISO8601durationToString(
+        categoryData.data[0].runs[0].run.times.realtime
+      );
 
       if (
         data[category].top1.name !== top1Name ||
