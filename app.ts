@@ -34,10 +34,10 @@ const main = async () => {
       const categoryData = await getCategory(categories[category]);
 
       const top1Name = await getPlayerName(
-        categoryData.data[0].runs[0].run.players[0].id
+        (categoryData as any).data[0].runs[0].run.players[0].id
       );
       const top1Time = ISO8601durationToString(
-        categoryData.data[0].runs[0].run.times.realtime
+        (categoryData as any).data[0].runs[0].run.times.realtime
       );
 
       if (

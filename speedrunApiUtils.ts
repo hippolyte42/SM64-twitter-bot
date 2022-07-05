@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 const data = {
   "120 stars": {
@@ -38,17 +38,17 @@ export const categories = {
 };
 
 export const getPlayerName = async (playerId: string) => {
-  return (
-    await fetch(`https://www.speedrun.com/api/v1/users/${playerId}`).then(
-      async (res) => await res.json()
-    )
-  ).data.names.international;
+  const response = await fetch(
+    `https://www.speedrun.com/api/v1/users/${playerId}`
+  );
+  return ((await response.json()) as any).data.names.international;
 };
 
 export const getCategory = async (categoryId: string) => {
-  const categoryData = await fetch(
+  const response = await fetch(
     `https://www.speedrun.com/api/v1/categories/${categoryId}/records?${uuidv4()}`
-  ).then(async (res) => await res.json());
+  );
+  const categoryData = response.json();
 
   return categoryData;
 };
@@ -79,7 +79,7 @@ export const initData = async () => {
         const categoryData = await getCategory(categories[category]);
 
         const top1Name = await getPlayerName(
-          categoryData.data[0].runs[0].run.players[0].id
+          (categoryData as any).data[0].runs[0].run.players[0].id
         );
         // const top2Name = await getPlayerName(
         //   categoryData.data[0].runs[1].run.players[0].id
@@ -88,7 +88,8 @@ export const initData = async () => {
         //   categoryData.data[0].runs[2].run.players[0].id
         // );
 
-        const top1Time = categoryData.data[0].runs[0].run.times.realtime;
+        const top1Time = (categoryData as any).data[0].runs[0].run.times
+          .realtime;
         // const top2Time = categoryData.data[0].runs[1].run.times.realtime;
         // const top3Time = categoryData.data[0].runs[2].run.times.realtime;
 
