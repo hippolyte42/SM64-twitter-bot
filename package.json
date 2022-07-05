@@ -4,7 +4,8 @@
   "description": "This Twitter bot tweet Super Mario 64 new world records once submitted and verified on speedrun.com.",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node dist/app.js",
+    "build": "tsc",
+    "start": "node dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
