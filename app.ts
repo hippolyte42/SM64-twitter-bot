@@ -25,6 +25,8 @@ const main = async () => {
 
   const data = await initData();
 
+  client.v1.tweet(`I am deployed 👏👏👏`);
+
   setInterval(() => {
     console.log("Interval poke");
     Object.keys(categories).map(async (category) => {
