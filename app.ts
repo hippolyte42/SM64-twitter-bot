@@ -35,10 +35,13 @@ const main = async () => {
       const top1Name = await getPlayerName(
         categoryData.data[0].runs[0].run.players[0].id
       );
+      const top1Time = categoryData.data[0].runs[0].run.times.realtime;
 
-      if (data[category].top1.name !== top1Name) {
+      if (
+        data[category].top1.name !== top1Name ||
+        data[category].top1.time !== top1Time
+      ) {
         // new WR!
-        const top1Time = categoryData.data[0].runs[0].run.times.realtime;
         data[category].top1.name = top1Name;
         data[category].top1.time = top1Time;
         client.v1.tweet(
