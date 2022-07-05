@@ -4,28 +4,18 @@ import { v4 as uuidv4 } from "uuid";
 const data = {
   "120 stars": {
     top1: { name: "", time: "" },
-    // top2: { name: "", time: "" },
-    // top3: { name: "", time: "" },
   },
   "70 stars": {
     top1: { name: "", time: "" },
-    // top2: { name: "", time: "" },
-    // top3: { name: "", time: "" },
   },
   "16 stars": {
     top1: { name: "", time: "" },
-    // top2: { name: "", time: "" },
-    // top3: { name: "", time: "" },
   },
   "1 star": {
     top1: { name: "", time: "" },
-    // top2: { name: "", time: "" },
-    // top3: { name: "", time: "" },
   },
   "0 star": {
     top1: { name: "", time: "" },
-    // top2: { name: "", time: "" },
-    // top3: { name: "", time: "" },
   },
 };
 
@@ -81,26 +71,12 @@ export const initData = async () => {
         const top1Name = await getPlayerName(
           (categoryData as any).data[0].runs[0].run.players[0].id
         );
-        // const top2Name = await getPlayerName(
-        //   categoryData.data[0].runs[1].run.players[0].id
-        // );
-        // const top3Name = await getPlayerName(
-        //   categoryData.data[0].runs[2].run.players[0].id
-        // );
 
         const top1Time = (categoryData as any).data[0].runs[0].run.times
           .realtime;
-        // const top2Time = categoryData.data[0].runs[1].run.times.realtime;
-        // const top3Time = categoryData.data[0].runs[2].run.times.realtime;
 
         data[category].top1.name = top1Name;
         data[category].top1.time = ISO8601durationToString(top1Time);
-
-        // data[category].top2.name = top2Name;
-        // data[category].top2.time = ISO8601durationToString(top2Time);
-
-        // data[category].top3.name = top3Name;
-        // data[category].top3.time = ISO8601durationToString(top3Time);
       }
     })
   );
