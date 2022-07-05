@@ -26,7 +26,7 @@ const main = async () => {
 
   const data = await initData();
 
-  client.v1.tweet(`I am deployed 👏👏👏`);
+  client.v1.tweet(`I am deployed 👏👏👏 - ${new Date().toISOString()}`);
 
   setInterval(() => {
     console.log("Interval poke");

@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+import { v4 as uuidv4 } from 'uuid';
 
 const data = {
   "120 stars": {
@@ -46,7 +47,7 @@ export const getPlayerName = async (playerId: string) => {
 
 export const getCategory = async (categoryId: string) => {
   const categoryData = await fetch(
-    `https://www.speedrun.com/api/v1/categories/${categoryId}/records`
+    `https://www.speedrun.com/api/v1/categories/${categoryId}/records?${uuidv4()}`
   ).then(async (res) => await res.json());
 
   return categoryData;
@@ -56,16 +57,17 @@ export const ISO8601durationToString = (ISO8601duration: string) => {
   const result = [];
 
   ISO8601duration.split("").map((c) => {
-    if (c === "P" || c === "T" || c === "S") {
+    if (c === "P" || c === "T") {
     } else if (c === "H") {
       result.push(" hours ");
     } else if (c === "M") {
       result.push(" minutes ");
+    } else if (c === "S") {
+      result.push(" seconds");
     } else {
       result.push(c);
     }
   });
-  result.push(" seconds");
 
   return result.join("");
 };
