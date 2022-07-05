@@ -2,29 +2,29 @@ import fetch from "node-fetch";
 import { v4 as uuidv4 } from "uuid";
 
 const data = {
-  "120 stars": {
+  "120 Star": {
     top1: { name: "", time: "" },
   },
-  "70 stars": {
+  "70 Star": {
     top1: { name: "", time: "" },
   },
-  "16 stars": {
+  "16 Star": {
     top1: { name: "", time: "" },
   },
-  "1 star": {
+  "1 Star": {
     top1: { name: "", time: "" },
   },
-  "0 star": {
+  "0 Star": {
     top1: { name: "", time: "" },
   },
 };
 
 export const categories = {
-  "120 stars": "wkpoo02r",
-  "70 stars": "7dgrrxk4",
-  "16 stars": "n2y55mko",
-  "1 star": "7kjpp4k3",
-  "0 star": "xk9gg6d0",
+  "120 Star": "wkpoo02r",
+  "70 Star": "7dgrrxk4",
+  "16 Star": "n2y55mko",
+  "1 Star": "7kjpp4k3",
+  "0 Star": "xk9gg6d0",
 };
 
 export const getPlayerName = async (playerId: string) => {
