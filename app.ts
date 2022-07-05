@@ -26,6 +26,7 @@ const main = async () => {
   const data = await initData();
 
   setInterval(() => {
+    console.log("Interval poke");
     Object.keys(categories).map(async (category) => {
       const categoryData = await getCategory(categories[category]);
 
