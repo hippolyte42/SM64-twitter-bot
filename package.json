@@ -19,7 +19,7 @@
   "homepage": "https://github.com/hippolyte42/SM64-WR-twitter-bot#readme",
   "dependencies": {
     "dotenv": "^16.0.1",
-    "node-fetch": "^2.6.6",
+    "node-fetch": "^2.6.7",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
