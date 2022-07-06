@@ -30,10 +30,10 @@ const main = async () => {
 
   // pick tweet template
   // client.v1.tweet(`I just got updated - ${new Date().toISOString()}`);
-  // client.v1.tweet(`I just got updated - changelog:
-  //   - now display link to WR run
-  //   - now display runner twitter if they have one
-  // `);
+  client.v1.tweet(`I just got updated - changelog:
+    - now display link to WR run
+    - now display runner twitter if they have one
+  `);
 
   setInterval(() => {
     console.log("Interval poke");
@@ -58,7 +58,8 @@ const main = async () => {
         client.v1.tweet(
           `New Super Mario 64 ${category} world record! Congratulation to ${
             top1Twitter || top1Name
-          } for finishing the game in ${top1Time} 👏👏👏 Full run is available here: ${top1RunLink}`
+          } for finishing the game in ${top1Time} 👏👏👏
+          Full run is available here: ${top1RunLink}`
         );
       }
     });
