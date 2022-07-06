@@ -45,9 +45,6 @@ const main = async () => {
       const top1Time = ISO8601durationToString(
         (categoryData as any).data[0].runs[0].run.times.realtime
       );
-      const top1RunLink = (categoryData as any).data[0].runs[0].run.weblink;
-      const top1Twitter = await getPlayerTwitter(top1Id);
-
       // new WR!
       if (
         data[category].top1.name !== top1Name ||
@@ -56,6 +53,9 @@ const main = async () => {
         // update data
         data[category].top1.name = top1Name;
         data[category].top1.time = top1Time;
+
+        const top1RunLink = (categoryData as any).data[0].runs[0].run.weblink;
+        const top1Twitter = await getPlayerTwitter(top1Id);
 
         // tweet about it
         client.v1.tweet(
