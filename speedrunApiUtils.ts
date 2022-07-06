@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
 import { v4 as uuidv4 } from "uuid";
+import { getTwitterSlugFromUri } from "./utils";
 
 const data = {
   "120 Star": {
@@ -20,7 +21,7 @@ const data = {
 };
 
 export const categories = {
-  "120 Star": "wkpoo02r",
+  "120 Star": "wkpoo02r", // match category with speedrun.com category id
   "70 Star": "7dgrrxk4",
   "16 Star": "n2y55mko",
   "1 Star": "7kjpp4k3",
@@ -32,6 +33,15 @@ export const getPlayerName = async (playerId: string) => {
     `https://www.speedrun.com/api/v1/users/${playerId}`
   );
   return ((await response.json()) as any).data.names.international;
+};
+
+export const getPlayerTwitter = async (playerId: string) => {
+  const response = await fetch(
+    `https://www.speedrun.com/api/v1/users/${playerId}`
+  );
+  const twitterUri: string | undefined = ((await response.json()) as any).data
+    .twitter.uri;
+  return getTwitterSlugFromUri(twitterUri);
 };
 
 export const getCategory = async (categoryId: string) => {
