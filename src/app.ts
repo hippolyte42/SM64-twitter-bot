@@ -1,12 +1,11 @@
 import dotenv from "dotenv";
 import Twitter from "twitter-api-v2";
+import { ISO8601durationToString } from "./formatUtils";
+import { categories, initData } from "./init";
 import {
-  categories,
   getCategory,
   getPlayerName,
   getPlayerTwitter,
-  initData,
-  ISO8601durationToString,
 } from "./speedrunApiUtils";
 
 dotenv.config();
@@ -37,6 +36,7 @@ const main = async () => {
 
   setInterval(() => {
     console.log("new interval start");
+
     Object.keys(categories).map(async (category) => {
       const categoryData = await getCategory(categories[category]);
       const top1Id = (categoryData as any).data[0].runs[0].run.players[0].id;
@@ -48,12 +48,11 @@ const main = async () => {
       const top1RunLink = (categoryData as any).data[0].runs[0].run.weblink;
       const top1Twitter = await getPlayerTwitter(top1Id);
 
+      // new WR!
       if (
         data[category].top1.name !== top1Name ||
         data[category].top1.time !== top1Time
       ) {
-        // new WR!
-
         // update data
         data[category].top1.name = top1Name;
         data[category].top1.time = top1Time;
@@ -63,7 +62,7 @@ const main = async () => {
           `New Super Mario 64 ${category} world record! Congratulation to ${
             top1Twitter || top1Name
           } for finishing the game in ${top1Time} 👏👏👏
-          Full run is available here: ${top1RunLink}`
+        Full run is available here: ${top1RunLink}`
         );
       }
     });
