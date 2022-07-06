@@ -28,7 +28,7 @@ const main = async () => {
 
   const data = await initData();
 
-  // pick tweet template
+  // pick tweet update template
   // client.v1.tweet(`I just got updated - ${new Date().toISOString()}`);
   client.v1.tweet(`I just got updated - changelog:
     - now display link to WR run
@@ -36,7 +36,7 @@ const main = async () => {
   `);
 
   setInterval(() => {
-    console.log("Interval poke");
+    console.log("new interval start");
     Object.keys(categories).map(async (category) => {
       const categoryData = await getCategory(categories[category]);
       const top1Id = (categoryData as any).data[0].runs[0].run.players[0].id;
@@ -53,8 +53,12 @@ const main = async () => {
         data[category].top1.time !== top1Time
       ) {
         // new WR!
+
+        // update data
         data[category].top1.name = top1Name;
         data[category].top1.time = top1Time;
+
+        // tweet about it
         client.v1.tweet(
           `New Super Mario 64 ${category} world record! Congratulation to ${
             top1Twitter || top1Name
