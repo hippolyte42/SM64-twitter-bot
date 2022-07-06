@@ -40,8 +40,8 @@ export const getPlayerTwitter = async (playerId: string) => {
     `https://www.speedrun.com/api/v1/users/${playerId}`
   );
   const twitterUri: string | undefined = ((await response.json()) as any).data
-    .twitter.uri;
-  return getTwitterSlugFromUri(twitterUri);
+    .twitter?.uri;
+  return twitterUri ? getTwitterSlugFromUri(twitterUri) : undefined;
 };
 
 export const getCategory = async (categoryId: string) => {
