@@ -1,15 +1,15 @@
 import { ISO8601durationToString } from "./utils/formatUtils";
 import { getCategory, getPlayerName } from "./utils/speedrunApiUtils";
 
-type category = "120 Star" | "70 Star" | "16 Star" | "1 Star" | "0 Star";
+export type Category = "120 Star" | "70 Star" | "16 Star" | "1 Star" | "0 Star";
 
-type CategoryData = {
+export type CategoryData = {
   top1Name: string;
   top1Time: string;
 };
 
-type Data = {
-  [name in category]: CategoryData;
+export type Data = {
+  [name in Category]: CategoryData;
 };
 
 const data: Data = {
@@ -35,8 +35,8 @@ const data: Data = {
   },
 };
 
-type Categories = {
-  [name in category]: string;
+export type Categories = {
+  [name in Category]: string;
 };
 
 export const categories: Categories = {
@@ -49,7 +49,7 @@ export const categories: Categories = {
 
 export const initData = async () => {
   await Promise.all(
-    Object.keys(categories).map(async (category: category) => {
+    Object.keys(categories).map(async (category: Category) => {
       if (categories[category]) {
         const categoryData = await getCategory(categories[category]);
 

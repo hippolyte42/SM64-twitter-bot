@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { categories, initData } from "./init";
+import { categories, Category, Data, initData } from "./init";
 import { ISO8601durationToString } from "./utils/formatUtils";
 import {
   getCategory,
@@ -14,7 +14,7 @@ import {
 dotenv.config();
 
 const main = async () => {
-  const data = await initData();
+  const data: Data = await initData();
 
   // new release tweet
   sendNewReleaseTweet();
@@ -22,7 +22,7 @@ const main = async () => {
   setInterval(() => {
     console.log("new interval start");
 
-    Object.keys(categories).map(async (category) => {
+    Object.keys(categories).map(async (category: Category) => {
       const categoryData = await getCategory(categories[category]);
       const top1Id = (categoryData as any).data[0].runs[0].run.players[0].id;
 
@@ -32,12 +32,12 @@ const main = async () => {
       );
       // new WR!
       if (
-        data[category].top1.name !== top1Name ||
-        data[category].top1.time !== top1Time
+        data[category].top1Name !== top1Name ||
+        data[category].top1Time !== top1Time
       ) {
         // update data
-        data[category].top1.name = top1Name;
-        data[category].top1.time = top1Time;
+        data[category].top1Name = top1Name;
+        data[category].top1Time = top1Time;
 
         const top1RunLink = (categoryData as any).data[0].runs[0].run.weblink;
         const top1Twitter = await getPlayerTwitter(top1Id);
