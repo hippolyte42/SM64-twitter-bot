@@ -1,38 +1,23 @@
 import dotenv from "dotenv";
-import Twitter from "twitter-api-v2";
-import { ISO8601durationToString } from "./formatUtils";
 import { categories, initData } from "./init";
+import { ISO8601durationToString } from "./utils/formatUtils";
 import {
   getCategory,
   getPlayerName,
   getPlayerTwitter,
-} from "./speedrunApiUtils";
+} from "./utils/speedrunApiUtils";
+import {
+  sendNewWorldRecordTweet,
+  sendNewReleaseTweet,
+} from "./utils/tweetUtils";
 
 dotenv.config();
 
 const main = async () => {
-  const {
-    API_KEY: appKey,
-    API_SECRET_KEY: appSecret,
-    ACCESS_TOKEN: accessToken,
-    ACCESS_TOKEN_SECRET: accessSecret,
-  } = process.env;
-
-  const client = new Twitter({
-    appKey,
-    appSecret,
-    accessToken,
-    accessSecret,
-  });
-
   const data = await initData();
 
-  // pick tweet update template
-  // client.v1.tweet(`I just got updated - ${new Date().toISOString()}`);
-  client.v1.tweet(`I just got updated - changelog:
-    - now display link to WR run
-    - now display runner twitter if they have one
-  `);
+  // new release tweet
+  sendNewReleaseTweet();
 
   setInterval(() => {
     console.log("new interval start");
@@ -57,12 +42,12 @@ const main = async () => {
         const top1RunLink = (categoryData as any).data[0].runs[0].run.weblink;
         const top1Twitter = await getPlayerTwitter(top1Id);
 
-        // tweet about it
-        client.v1.tweet(
-          `New Super Mario 64 ${category} world record! Congratulation to ${
-            top1Twitter || top1Name
-          } for finishing the game in ${top1Time} 👏👏👏
-        Full run is available here: ${top1RunLink}`
+        sendNewWorldRecordTweet(
+          category,
+          top1Name,
+          top1Time,
+          top1RunLink,
+          top1Twitter
         );
       }
     });
