@@ -8,11 +8,11 @@ export type CategoryData = {
   top1Time: string;
 };
 
-export type Data = {
+export type DB = {
   [name in Category]: CategoryData;
 };
 
-const data: Data = {
+const database: DB = {
   "120 Star": {
     top1Name: "",
     top1Time: "",
@@ -47,26 +47,29 @@ export const categories: Categories = {
   "0 Star": "xk9gg6d0",
 };
 
-export const initData = async () => {
+export const initDb = async () => {
   await Promise.all(
     Object.keys(categories).map(async (category: Category) => {
       if (categories[category]) {
         const categoryData = await getCategory(categories[category]);
 
-        const top1Name = await getPlayerName(
-          (categoryData as any).data[0].runs[0].run.players[0].id
-        );
+        if (
+          (categoryData as any).data[0].runs[0].run.status.status === "verified"
+        ) {
+          const top1Id = (categoryData as any).data[0].runs[0].run.players[0]
+            .id;
+          const top1Name = await getPlayerName(top1Id);
+          const top1Time = (categoryData as any).data[0].runs[0].run.times
+            .realtime;
 
-        const top1Time = (categoryData as any).data[0].runs[0].run.times
-          .realtime;
-
-        data[category].top1Name = top1Name;
-        data[category].top1Time = ISO8601durationToString(top1Time);
+          database[category].top1Name = top1Name;
+          database[category].top1Time = ISO8601durationToString(top1Time);
+        }
       }
     })
   );
 
-  console.log(data);
+  console.log(database);
 
-  return data;
+  return database;
 };

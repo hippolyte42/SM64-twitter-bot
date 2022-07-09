@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { categories, Category, Data, initData } from "./init";
+import { categories, Category, DB, initDb } from "./init";
 import { ISO8601durationToString } from "./utils/formatUtils";
 import {
   getCategory,
@@ -7,14 +7,14 @@ import {
   getPlayerTwitter,
 } from "./utils/speedrunApiUtils";
 import {
-  sendNewWorldRecordTweet,
   sendNewReleaseTweet,
+  sendNewWorldRecordTweet,
 } from "./utils/tweetUtils";
 
 dotenv.config();
 
 const main = async () => {
-  const data: Data = await initData();
+  const db: DB = await initDb();
 
   // new release tweet
   sendNewReleaseTweet();
@@ -24,24 +24,25 @@ const main = async () => {
 
     Object.keys(categories).map(async (category: Category) => {
       const categoryData = await getCategory(categories[category]);
-      const top1Id = (categoryData as any).data[0].runs[0].run.players[0].id;
+      const top1RunData = (categoryData as any).data[0].runs[0].run;
+      const top1Id = top1RunData.players[0].id;
 
       const top1Name = await getPlayerName(top1Id);
-      const top1Time = ISO8601durationToString(
-        (categoryData as any).data[0].runs[0].run.times.realtime
-      );
+      const top1Time = ISO8601durationToString(top1RunData.times.realtime);
+      const isRunVerified = top1RunData.status.status === "verified";
       // new WR!
       if (
-        data[category].top1Name !== top1Name ||
-        data[category].top1Time !== top1Time
+        isRunVerified &&
+        (db[category].top1Name !== top1Name ||
+          db[category].top1Time !== top1Time)
       ) {
+        console.log("New world record!", isRunVerified, top1Name, top1Time);
         // update data
-        data[category].top1Name = top1Name;
-        data[category].top1Time = top1Time;
+        db[category].top1Name = top1Name;
+        db[category].top1Time = top1Time;
 
-        const top1RunLink = (categoryData as any).data[0].runs[0].run.weblink;
+        const top1RunLink = top1RunData.weblink;
         const top1Twitter = await getPlayerTwitter(top1Id);
-
         sendNewWorldRecordTweet(
           category,
           top1Name,
