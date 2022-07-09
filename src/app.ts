@@ -16,7 +16,6 @@ dotenv.config();
 const main = async () => {
   const db: DB = await initDb();
 
-  // new release tweet
   sendNewReleaseTweet();
 
   setInterval(() => {
@@ -43,6 +42,7 @@ const main = async () => {
 
         const top1RunLink = top1RunData.weblink;
         const top1Twitter = await getPlayerTwitter(top1Id);
+
         sendNewWorldRecordTweet(
           category,
           top1Name,

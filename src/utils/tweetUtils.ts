@@ -7,12 +7,16 @@ const {
   ACCESS_TOKEN_SECRET: accessSecret,
 } = process.env;
 
-const client = new Twitter({
-  appKey,
-  appSecret,
-  accessToken,
-  accessSecret,
-});
+const isTwitterActivated = process.env.IS_TWITTER_ACTIVATED === "true";
+
+const client =
+  isTwitterActivated &&
+  new Twitter({
+    appKey,
+    appSecret,
+    accessToken,
+    accessSecret,
+  });
 
 export const sendNewWorldRecordTweet = (
   category: string,
@@ -21,16 +25,19 @@ export const sendNewWorldRecordTweet = (
   top1RunLink: string,
   top1Twitter: string | undefined
 ) => {
-  client.v1.tweet(
-    `New Super Mario 64 ${category} world record! Congratulation to ${
-      top1Twitter || top1Name
-    } for finishing the game in ${top1Time} 👏👏👏
+  if (isTwitterActivated) {
+    client.v1.tweet(
+      `New Super Mario 64 ${category} world record! Congratulation to ${
+        top1Twitter || top1Name
+      } for finishing the game in ${top1Time} 👏👏👏
         Full run is available here: ${top1RunLink}`
-  );
+    );
+  }
 };
 
 export const sendNewReleaseTweet = () => {
-  client.v1.tweet(`I just got updated! - changelog:
+  if (isTwitterActivated) {
+    client.v1.tweet(`I just got updated! - changelog:
     - now display link to WR run
     - now display runner twitter from speedrun.com
     
@@ -39,4 +46,5 @@ export const sendNewReleaseTweet = () => {
     - 7 new issues available GitHub, including 1 good first issue
     - discord collaborators group chat created
   `);
+  }
 };
