@@ -37,13 +37,13 @@ export const sendNewWorldRecordTweet = (
 
 export const sendNewReleaseTweet = () => {
   if (isTwitterActivated) {
-    client.v1.tweet(`I just got updated! - changelog:
+    client.v1.tweet(`I just got updated: 🤖
     - now display link to WR run
-    - now display runner twitter from speedrun.com
+    - now display new WR runner twitter handle
     
     note to devs:
-    - now have a readMe on GitHub with requirements & getting started
-    - 7 new issues available GitHub, including 1 good first issue
+    - readMe with requirements & getting started
+    - 8 new issues on GitHub, including 2 good first issue
     - discord collaborators group chat created
   `);
   }
