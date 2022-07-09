@@ -1,4 +1,3 @@
-import dotenv from "dotenv";
 import { categories, Category, DB, initDb } from "./init";
 import { ISO8601durationToString } from "./utils/formatUtils";
 import {
@@ -11,12 +10,10 @@ import {
   sendNewWorldRecordTweet,
 } from "./utils/tweetUtils";
 
-dotenv.config();
-
 const main = async () => {
   const db: DB = await initDb();
 
-  sendNewReleaseTweet();
+  await sendNewReleaseTweet();
 
   setInterval(() => {
     console.log("new interval start");
@@ -43,7 +40,7 @@ const main = async () => {
         const top1RunLink = top1RunData.weblink;
         const top1Twitter = await getPlayerTwitter(top1Id);
 
-        sendNewWorldRecordTweet(
+        await sendNewWorldRecordTweet(
           category,
           top1Name,
           top1Time,

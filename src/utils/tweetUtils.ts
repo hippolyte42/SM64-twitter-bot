@@ -1,4 +1,7 @@
 import Twitter from "twitter-api-v2";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const {
   API_KEY: appKey,
@@ -18,7 +21,7 @@ const client =
     accessSecret,
   });
 
-export const sendNewWorldRecordTweet = (
+export const sendNewWorldRecordTweet = async (
   category: string,
   top1Name: string,
   top1Time: string,
@@ -26,7 +29,7 @@ export const sendNewWorldRecordTweet = (
   top1Twitter: string | undefined
 ) => {
   if (isTwitterActivated) {
-    client.v1.tweet(
+    await client.v1.tweet(
       `New Super Mario 64 ${category} world record! Congratulation to ${
         top1Twitter || top1Name
       } for finishing the game in ${top1Time} 👏👏👏
@@ -35,9 +38,9 @@ export const sendNewWorldRecordTweet = (
   }
 };
 
-export const sendNewReleaseTweet = () => {
+export const sendNewReleaseTweet = async () => {
   if (isTwitterActivated) {
-    client.v1.tweet(`I just got updated: 🤖
+    await client.v1.tweet(`I just got updated: 🤖
     - now display link to WR run
     - now display new WR runner twitter handle
     
