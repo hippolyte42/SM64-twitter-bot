@@ -30,10 +30,27 @@ export const sendNewWorldRecordTweet = async (
 ) => {
   if (isTwitterActivated) {
     await client.v1.tweet(
-      `New Super Mario 64 ${category} world record! Congratulation to ${
+      `New Super Mario 64 ${category} World Record! Congratulation to ${
         top1Twitter || top1Name
-      } for finishing the game in ${top1Time} 👏👏👏
-        Full run is available here: ${top1RunLink}`
+      } for finishing the game in ${top1Time} ✨🏰🥇
+        Watch the full run here ${top1RunLink}`
+    );
+  }
+};
+
+export const sendNewNoteworthyRunTweet = async (
+  category: string,
+  runnerName: string,
+  runnerTime: string,
+  runWeblink: string,
+  runnerTwitter: string | undefined
+) => {
+  if (isTwitterActivated) {
+    await client.v1.tweet(
+      `New Super Mario 64 ${category} noteworthy run! Well done to ${
+        runnerTwitter || runnerName
+      } for finishing the game in ${runnerTime} 🍑🎂
+        Watch the full run here ${runWeblink}`
     );
   }
 };
@@ -41,13 +58,7 @@ export const sendNewWorldRecordTweet = async (
 export const sendNewReleaseTweet = async () => {
   if (isTwitterActivated) {
     await client.v1.tweet(`I just got updated: 🤖
-    - now display link to WR run
-    - now display new WR runner twitter handle
-    
-    note to devs:
-    - readMe with requirements & getting started
-    - 8 new issues on GitHub, including 2 good first issue
-    - discord collaborators group chat created
+    - now tweet new noteworthy runs from selected platforms & categories
   `);
   }
 };
