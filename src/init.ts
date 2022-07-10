@@ -1,5 +1,9 @@
 import { ISO8601durationToString } from "./utils/formatUtils";
-import { getCategory, getPlayerName } from "./utils/speedrunApiUtils";
+import {
+  getCategory,
+  getNewNoteworthyRuns,
+  getPlayerName,
+} from "./utils/speedrunApiUtils";
 
 export type Category = "120 Star" | "70 Star" | "16 Star" | "1 Star" | "0 Star";
 
@@ -8,11 +12,16 @@ export type CategoryData = {
   top1Time: string;
 };
 
-export type DB = {
+export type WRTable = {
   [name in Category]: CategoryData;
 };
 
-const database: DB = {
+export type DB = {
+  wrTable: WRTable;
+  noteworthyRunsTable: NoteworthyRunsTable;
+};
+
+const wrTable: WRTable = {
   "120 Star": {
     top1Name: "",
     top1Time: "",
@@ -35,24 +44,61 @@ const database: DB = {
   },
 };
 
+export type NoteworthyRunsTable = {
+  [name in Category]: NoteworthyRunsData[];
+};
+
+export type NoteworthyRunsData = {
+  runnerTime: string;
+  runnerName: string;
+  runnerId: string;
+  runWeblink: string;
+  runnerPrettyTime: string;
+};
+
+const noteworthyRunsTable: NoteworthyRunsTable = {
+  "120 Star": [],
+  "70 Star": [],
+  "16 Star": [],
+  "1 Star": [],
+  "0 Star": [],
+};
+
+export type CategoryInfo = {
+  id: string;
+  noteworthyTime: string;
+};
+
 export type Categories = {
-  [name in Category]: string;
+  [name in Category]: CategoryInfo;
 };
 
 export const categories: Categories = {
-  "120 Star": "wkpoo02r", // match category with speedrun.com category id
-  "70 Star": "7dgrrxk4",
-  "16 Star": "n2y55mko",
-  "1 Star": "7kjpp4k3",
-  "0 Star": "xk9gg6d0",
+  "120 Star": {
+    id: "wkpoo02r", // match category with speedrun.com category id
+    noteworthyTime: "01:49:59",
+  },
+  "70 Star": { id: "7dgrrxk4", noteworthyTime: "50:59" },
+  "16 Star": { id: "n2y55mko", noteworthyTime: "15:59" },
+  "1 Star": { id: "7kjpp4k3", noteworthyTime: "07:39" },
+  "0 Star": { id: "xk9gg6d0", noteworthyTime: "06:59" },
 };
+
+const db: DB = { wrTable, noteworthyRunsTable };
 
 export const initDb = async () => {
   await Promise.all(
     Object.keys(categories).map(async (category: Category) => {
       if (categories[category]) {
-        const categoryData = await getCategory(categories[category]);
+        // init and set noteworthyRunsTable
+        const newNoteworthyRuns = await getNewNoteworthyRuns(
+          categories[category],
+          db.noteworthyRunsTable[category]
+        );
+        db.noteworthyRunsTable[category] = newNoteworthyRuns;
 
+        // init and set wrTable
+        const categoryData = await getCategory(categories[category].id);
         if (
           (categoryData as any).data[0].runs[0].run.status.status === "verified"
         ) {
@@ -62,14 +108,16 @@ export const initDb = async () => {
           const top1Time = (categoryData as any).data[0].runs[0].run.times
             .realtime;
 
-          database[category].top1Name = top1Name;
-          database[category].top1Time = ISO8601durationToString(top1Time);
+          db.wrTable[category] = {
+            top1Name,
+            top1Time: ISO8601durationToString(top1Time),
+          };
         }
       }
     })
   );
 
-  console.log(database);
+  console.log("db", db);
 
-  return database;
+  return db;
 };
