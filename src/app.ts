@@ -27,13 +27,13 @@ const main = async () => {
           categories[category],
           db.noteworthyRunsTable[category]
         );
-        console.log(
-          "newNoteworthyRuns",
-          newNoteworthyRuns,
-          new Date().toISOString()
-        );
 
         newNoteworthyRuns.map(async (newNoteworthyRun) => {
+          console.log(
+            "newNoteworthyRun",
+            newNoteworthyRun,
+            new Date().toISOString()
+          );
           // update data
           db.noteworthyRunsTable[category].push(newNoteworthyRun);
 
