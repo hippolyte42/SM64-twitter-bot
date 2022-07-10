@@ -4,7 +4,7 @@
 
 This Twitter bot tweet Super Mario 64 new stellar runs once submitted & verified on speedrun.com.
 
-https://twitter.com/supermario64bot
+https://twitter.com/SuperMario64Bot
 
 ---
 
