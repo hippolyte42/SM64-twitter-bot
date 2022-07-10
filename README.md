@@ -1,8 +1,8 @@
 ![image](https://user-images.githubusercontent.com/25116785/177857389-7a127ca6-9eb5-4611-b3a0-d9dedbae4455.png)
 
-# SM64-WR-twitter-bot
+# SM64-twitter-bot
 
-This Twitter bot tweet Super Mario 64 new world records once submitted and verified on speedrun.com.
+This Twitter bot tweet Super Mario 64 new stellar runs once submitted & verified on speedrun.com.
 
 https://twitter.com/supermario64bot
 
