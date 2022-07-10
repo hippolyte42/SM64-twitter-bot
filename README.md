@@ -2,7 +2,7 @@
 
 # SM64-twitter-bot
 
-The latest Super Mario 64 stellar runs once submitted & verified on [speedrun.com](https://www.speedrun.com/).
+Sharing the latest stellar Super Mario 64 runs verified on [speedrun.com](https://www.speedrun.com/).
 
 https://twitter.com/SuperMario64Bot
 
