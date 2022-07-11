@@ -15,7 +15,7 @@ import {
 const main = async () => {
   const db: DB = await initDb();
 
-  await sendNewReleaseTweet();
+  // await sendNewReleaseTweet();
 
   // this Interval handles New Noteworthy Runs
   setInterval(() => {
@@ -45,6 +45,7 @@ const main = async () => {
             newNoteworthyRun.runnerName,
             newNoteworthyRun.runnerPrettyTime,
             newNoteworthyRun.runWeblink,
+            newNoteworthyRun.runPlatform,
             runnerTwitter
           );
         });

@@ -54,6 +54,7 @@ export type NoteworthyRunsData = {
   runnerId: string;
   runWeblink: string;
   runnerPrettyTime: string;
+  runPlatform: string;
 };
 
 const noteworthyRunsTable: NoteworthyRunsTable = {

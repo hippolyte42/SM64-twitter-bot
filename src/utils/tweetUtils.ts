@@ -43,11 +43,12 @@ export const sendNewNoteworthyRunTweet = async (
   runnerName: string,
   runnerTime: string,
   runWeblink: string,
+  runPlatform: string,
   runnerTwitter: string | undefined
 ) => {
   if (isTwitterActivated) {
     await client.v1.tweet(
-      `New Super Mario 64 ${category} noteworthy run! Well done to ${
+      `New Super Mario 64 ${category} noteworthy run on ${runPlatform}! Well done to ${
         runnerTwitter || runnerName
       } for finishing the game in ${runnerTime} 🍑🎂
         Watch the full run here ${runWeblink}`
