@@ -1,4 +1,4 @@
-export const ISO8601durationToString = (ISO8601duration: string) => {
+export const ISO8601durationToPretty = (ISO8601duration: string) => {
   const result = [];
 
   // format HH hours MM minutes SSS seconds
@@ -7,7 +7,7 @@ export const ISO8601durationToString = (ISO8601duration: string) => {
     } else if (c === "H") {
       result.push(" hours ");
     } else if (c === "M") {
-      result.push(" minutes ");
+      result.push(" minutes & ");
     } else if (c === "S") {
       result.push(" seconds");
     } else {
@@ -18,7 +18,7 @@ export const ISO8601durationToString = (ISO8601duration: string) => {
   return result.join("");
 };
 
-export const ISO8601durationToStringShort = (ISO8601duration: string) => {
+export const ISO8601durationToDigital = (ISO8601duration: string) => {
   const result = [];
 
   // format HH:MM:SS

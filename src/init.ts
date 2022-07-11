@@ -1,4 +1,4 @@
-import { ISO8601durationToString } from "./utils/formatUtils";
+import { ISO8601durationToPretty } from "./utils/formatUtils";
 import {
   getCategory,
   getNewNoteworthyRuns,
@@ -111,7 +111,7 @@ export const initDb = async () => {
 
       db.wrTable[category] = {
         top1Name,
-        top1Time: ISO8601durationToString(top1Time),
+        top1Time: ISO8601durationToPretty(top1Time),
       };
       console.log("db.wrTable[category]", db.wrTable[category]);
     }

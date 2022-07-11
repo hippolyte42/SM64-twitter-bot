@@ -3,8 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import { CategoryInfo, NoteworthyRunsData } from "../init";
 import {
   getTwitterSlugFromUri,
-  ISO8601durationToString,
-  ISO8601durationToStringShort,
+  ISO8601durationToDigital,
+  ISO8601durationToPretty,
 } from "./formatUtils";
 import { isShorterDuration } from "./timeUtils";
 
@@ -57,7 +57,7 @@ export const getNewNoteworthyRuns = async (
     if (newVerifiedRuns.status.status === "verified") {
       const runnerTime: string | undefined =
         newVerifiedRuns.times.realtime &&
-        ISO8601durationToStringShort(newVerifiedRuns.times.realtime);
+        ISO8601durationToDigital(newVerifiedRuns.times.realtime);
       if (
         runnerTime &&
         isShorterDuration(runnerTime, categoryInfo.noteworthyTime) &&
@@ -73,7 +73,7 @@ export const getNewNoteworthyRuns = async (
           runnerTime,
           runnerId: newVerifiedRuns.players[0].id,
           runWeblink: newVerifiedRuns.weblink,
-          runnerPrettyTime: ISO8601durationToString(
+          runnerPrettyTime: ISO8601durationToPretty(
             newVerifiedRuns.times.realtime
           ),
           runPlatform: await getPlatformName(newVerifiedRuns.system.platform),
