@@ -88,35 +88,34 @@ export const categories: Categories = {
 const db: DB = { wrTable, noteworthyRunsTable };
 
 export const initDb = async () => {
-  await Promise.all(
-    Object.keys(categories).map(async (category: Category) => {
-      if (categories[category]) {
-        // init and set noteworthyRunsTable
-        const newNoteworthyRuns = await getNewNoteworthyRuns(
-          categories[category],
-          db.noteworthyRunsTable[category]
-        );
-        db.noteworthyRunsTable[category] = newNoteworthyRuns;
+  for (let category of Object.keys(categories)) {
+    // init and set noteworthyRunsTable
+    const newNoteworthyRuns = await getNewNoteworthyRuns(
+      categories[category],
+      db.noteworthyRunsTable[category]
+    );
+    db.noteworthyRunsTable[category] = newNoteworthyRuns;
+    console.log(
+      "db.noteworthyRunsTable[category]",
+      db.noteworthyRunsTable[category]
+    );
 
-        // init and set wrTable
-        const categoryData = await getCategory(categories[category].id);
-        if (
-          (categoryData as any).data[0].runs[0].run.status.status === "verified"
-        ) {
-          const top1Id = (categoryData as any).data[0].runs[0].run.players[0]
-            .id;
-          const top1Name = await getPlayerName(top1Id);
-          const top1Time = (categoryData as any).data[0].runs[0].run.times
-            .realtime;
+    // init and set wrTable
+    const categoryData = await getCategory(categories[category].id);
+    if (
+      (categoryData as any).data[0].runs[0].run.status.status === "verified"
+    ) {
+      const top1Id = (categoryData as any).data[0].runs[0].run.players[0].id;
+      const top1Name = await getPlayerName(top1Id);
+      const top1Time = (categoryData as any).data[0].runs[0].run.times.realtime;
 
-          db.wrTable[category] = {
-            top1Name,
-            top1Time: ISO8601durationToString(top1Time),
-          };
-        }
-      }
-    })
-  );
+      db.wrTable[category] = {
+        top1Name,
+        top1Time: ISO8601durationToString(top1Time),
+      };
+      console.log("db.wrTable[category]", db.wrTable[category]);
+    }
+  }
 
   console.log("db", db);
 

@@ -21,18 +21,19 @@ export const isShorterDuration = (
   if (isDurationInHour(duration1) && !isDurationInHour(duration2)) {
     return false;
   } else if (isDurationInHour(duration2)) {
+    if (!isDurationInHour(duration1)) return true;
     const segment1Hours = parseFloat(
       duration1.slice(0, duration1.indexOf(":"))
     );
     const segment2Hours = parseFloat(
       duration2.slice(0, duration2.indexOf(":"))
     );
-    const isShorterHour =
-      isShorterSegment(segment1Hours, segment2Hours) ||
-      !isDurationInHour(duration1);
 
+    const isShorterHour = isShorterSegment(segment1Hours, segment2Hours);
     if (isShorterHour) {
       return true;
+    } else if (isShorterHour === false) {
+      return false;
     }
   }
 

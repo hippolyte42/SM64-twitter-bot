@@ -29,11 +29,15 @@ export const sendNewWorldRecordTweet = async (
   top1Twitter: string | undefined
 ) => {
   if (isTwitterActivated) {
+    console.log(`Super Mario 64 ${category} World Record! Congratulation to ${
+      top1Twitter || top1Name
+    } for finishing the game in ${top1Time} ✨🏰🥇
+        Full run available ${top1RunLink}`);
     await client.v1.tweet(
-      `New Super Mario 64 ${category} World Record! Congratulation to ${
+      `Super Mario 64 ${category} World Record! Congratulation to ${
         top1Twitter || top1Name
       } for finishing the game in ${top1Time} ✨🏰🥇
-        Watch the full run here ${top1RunLink}`
+        Full run available ${top1RunLink}`
     );
   }
 };
@@ -47,17 +51,24 @@ export const sendNewNoteworthyRunTweet = async (
   runnerTwitter: string | undefined
 ) => {
   if (isTwitterActivated) {
-    await client.v1.tweet(
-      `New Super Mario 64 ${category} noteworthy run on ${runPlatform}! Well done to ${
+    console.log(
+      `Noteworthy Super Mario 64 ${category} run on ${runPlatform}. Well done to ${
         runnerTwitter || runnerName
-      } for finishing the game in ${runnerTime} 🍑🎂
-        Watch the full run here ${runWeblink}`
+      } for finishing the game in ${runnerTime}! 🍑🎂 Full run available ${runWeblink}`
+    );
+    await client.v1.tweet(
+      `Noteworthy Super Mario 64 ${category} run on ${runPlatform}. Well done to ${
+        runnerTwitter || runnerName
+      } for finishing the game in ${runnerTime}! 🍑🎂 Full run available ${runWeblink}`
     );
   }
 };
 
 export const sendNewReleaseTweet = async () => {
   if (isTwitterActivated) {
+    console.log(`I just got updated: 🤖
+    - now tweet new noteworthy runs from selected platforms & categories
+  `);
     await client.v1.tweet(`I just got updated: 🤖
     - now tweet new noteworthy runs from selected platforms & categories
   `);

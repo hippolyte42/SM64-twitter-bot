@@ -52,32 +52,35 @@ export const getNewNoteworthyRuns = async (
   const categoryNewVerifiedRunsData = (await response.json()).data;
 
   const newNoteworthyRuns: NoteworthyRunsData[] = [];
-  Promise.all(
-    categoryNewVerifiedRunsData.map(async (element) => {
-      if (element.status.status === "verified") {
-        const runnerTime: string | undefined =
-          element.times.realtime &&
-          ISO8601durationToStringShort(element.times.realtime);
-        if (
-          runnerTime &&
-          isShorterDuration(runnerTime, categoryInfo.noteworthyTime) &&
-          !NoteworthyRunsData.some(
-            async (v) =>
-              v.runnerName === (await getPlayerName(element.players[0].id)) &&
-              v.runnerTime === runnerTime
-          )
-        ) {
-          newNoteworthyRuns.push({
-            runnerName: await getPlayerName(element.players[0].id),
-            runnerTime,
-            runnerId: element.players[0].id,
-            runWeblink: element.weblink,
-            runnerPrettyTime: ISO8601durationToString(element.times.realtime),
-            runPlatform: await getPlatformName(element.system.platform),
-          });
-        }
+
+  for (let newVerifiedRuns of categoryNewVerifiedRunsData) {
+    if (newVerifiedRuns.status.status === "verified") {
+      const runnerTime: string | undefined =
+        newVerifiedRuns.times.realtime &&
+        ISO8601durationToStringShort(newVerifiedRuns.times.realtime);
+      if (
+        runnerTime &&
+        isShorterDuration(runnerTime, categoryInfo.noteworthyTime) &&
+        !NoteworthyRunsData.some(
+          async (v) =>
+            v.runnerName ===
+              (await getPlayerName(newVerifiedRuns.players[0].id)) &&
+            v.runnerTime === runnerTime
+        )
+      ) {
+        newNoteworthyRuns.push({
+          runnerName: await getPlayerName(newVerifiedRuns.players[0].id),
+          runnerTime,
+          runnerId: newVerifiedRuns.players[0].id,
+          runWeblink: newVerifiedRuns.weblink,
+          runnerPrettyTime: ISO8601durationToString(
+            newVerifiedRuns.times.realtime
+          ),
+          runPlatform: await getPlatformName(newVerifiedRuns.system.platform),
+        });
       }
-    })
-  );
+    }
+  }
+
   return newNoteworthyRuns;
 };
