@@ -45,21 +45,21 @@ export const sendNewWorldRecordTweet = async (
 export const sendNewNoteworthyRunTweet = async (
   category: string,
   runnerName: string,
-  runnerTime: string,
+  runnerDigitalTime: string,
   runWeblink: string,
   runPlatform: string,
   runnerTwitter: string | undefined
 ) => {
   if (isTwitterActivated) {
     console.log(
-      `Noteworthy Super Mario 64 ${category} run on ${runPlatform}. Well done to ${
+      `Congrats to ${
         runnerTwitter || runnerName
-      } for finishing the game in ${runnerTime}! 🍑🎂 Full run available ${runWeblink}`
+      } on a ${runnerDigitalTime} in ${category}! 🍑🎂 Version: ${runPlatform}. Full run now available ${runWeblink}`
     );
     await client.v1.tweet(
-      `Noteworthy Super Mario 64 ${category} run on ${runPlatform}. Well done to ${
+      `Congrats to ${
         runnerTwitter || runnerName
-      } for finishing the game in ${runnerTime}! 🍑🎂 Full run available ${runWeblink}`
+      } on a ${runnerDigitalTime} in ${category}! 🍑🎂 Version: ${runPlatform}. Full run now available ${runWeblink}`
     );
   }
 };

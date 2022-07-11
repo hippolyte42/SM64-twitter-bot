@@ -1,6 +1,6 @@
 import { sleepSecs } from "twitter-api-v2/dist/v1/media-helpers.v1";
 import { categories, DB, initDb } from "./init";
-import { ISO8601durationToPretty } from "./utils/formatUtils";
+import { ISO8601durationToDigital } from "./utils/formatUtils";
 import {
   getCategory,
   getNewNoteworthyRuns,
@@ -39,7 +39,7 @@ const main = async () => {
         await sendNewNoteworthyRunTweet(
           category,
           newNoteworthyRun.runnerName,
-          newNoteworthyRun.runnerPrettyTime,
+          newNoteworthyRun.runnerTime,
           newNoteworthyRun.runWeblink,
           newNoteworthyRun.runPlatform,
           runnerTwitter
@@ -52,7 +52,7 @@ const main = async () => {
       const top1Id = top1RunData.players[0].id;
 
       const top1Name = await getPlayerName(top1Id);
-      const top1Time = ISO8601durationToPretty(top1RunData.times.realtime);
+      const top1Time = ISO8601durationToDigital(top1RunData.times.realtime);
       const isRunVerified = top1RunData.status.status === "verified";
       // new WR!
       if (

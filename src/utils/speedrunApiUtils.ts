@@ -73,9 +73,6 @@ export const getNewNoteworthyRuns = async (
           runnerTime,
           runnerId: newVerifiedRuns.players[0].id,
           runWeblink: newVerifiedRuns.weblink,
-          runnerPrettyTime: ISO8601durationToPretty(
-            newVerifiedRuns.times.realtime
-          ),
           runPlatform: await getPlatformName(newVerifiedRuns.system.platform),
         });
       }
