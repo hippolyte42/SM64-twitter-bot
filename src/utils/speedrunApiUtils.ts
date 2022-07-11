@@ -33,6 +33,15 @@ export const getCategory = async (categoryId: string) => {
   return categoryData;
 };
 
+const getPlatformName = async (platformId: string) => {
+  const response = await fetch(
+    `https://www.speedrun.com/api/v1/platforms/${platformId}`
+  );
+  const platformName = (await response.json()).data.name;
+
+  return platformName;
+};
+
 export const getNewNoteworthyRuns = async (
   categoryInfo: CategoryInfo,
   NoteworthyRunsData: NoteworthyRunsData[]
@@ -45,11 +54,7 @@ export const getNewNoteworthyRuns = async (
   const newNoteworthyRuns: NoteworthyRunsData[] = [];
   Promise.all(
     categoryNewVerifiedRunsData.map(async (element) => {
-      if (
-        element.status.status === "verified" &&
-        !(element.system.emulated === true) &&
-        element.system.platform === "w89rwelk"
-      ) {
+      if (element.status.status === "verified") {
         const runnerTime: string | undefined =
           element.times.realtime &&
           ISO8601durationToStringShort(element.times.realtime);
@@ -68,6 +73,7 @@ export const getNewNoteworthyRuns = async (
             runnerId: element.players[0].id,
             runWeblink: element.weblink,
             runnerPrettyTime: ISO8601durationToString(element.times.realtime),
+            runPlatform: await getPlatformName(element.system.platform),
           });
         }
       }
