@@ -1,11 +1,7 @@
 import fetch from "node-fetch";
 import { v4 as uuidv4 } from "uuid";
 import { CategoryInfo, NoteworthyRunsData } from "../init";
-import {
-  getTwitterSlugFromUri,
-  ISO8601durationToDigital,
-  ISO8601durationToPretty,
-} from "./formatUtils";
+import { getTwitterSlugFromUri, ISO8601durationToDigital } from "./formatUtils";
 import { isShorterDuration } from "./timeUtils";
 
 export const getPlayerName = async (playerId: string) => {
@@ -26,7 +22,7 @@ export const getPlayerTwitter = async (playerId: string) => {
 
 export const getCategory = async (categoryId: string) => {
   const response = await fetch(
-    `https://www.speedrun.com/api/v1/categories/${categoryId}/records?status=verified&${uuidv4()}`
+    `https://www.speedrun.com/api/v1/categories/${categoryId}/records?status=verified`
   );
   const categoryData = await response.json();
 
@@ -53,27 +49,27 @@ export const getNewNoteworthyRuns = async (
 
   const newNoteworthyRuns: NoteworthyRunsData[] = [];
 
-  for (let newVerifiedRuns of categoryNewVerifiedRunsData) {
-    if (newVerifiedRuns.status.status === "verified") {
+  for (let newVerifiedRun of categoryNewVerifiedRunsData) {
+    if (newVerifiedRun.status.status === "verified") {
       const runnerTime: string | undefined =
-        newVerifiedRuns.times.realtime &&
-        ISO8601durationToDigital(newVerifiedRuns.times.realtime);
+        newVerifiedRun.times.realtime &&
+        ISO8601durationToDigital(newVerifiedRun.times.realtime);
       if (
         runnerTime &&
         isShorterDuration(runnerTime, categoryInfo.noteworthyTime) &&
         !NoteworthyRunsData.some(
           async (v) =>
             v.runnerName ===
-              (await getPlayerName(newVerifiedRuns.players[0].id)) &&
+              (await getPlayerName(newVerifiedRun.players[0].id)) &&
             v.runnerTime === runnerTime
         )
       ) {
         newNoteworthyRuns.push({
-          runnerName: await getPlayerName(newVerifiedRuns.players[0].id),
+          runnerName: await getPlayerName(newVerifiedRun.players[0].id),
           runnerTime,
-          runnerId: newVerifiedRuns.players[0].id,
-          runWeblink: newVerifiedRuns.weblink,
-          runPlatform: await getPlatformName(newVerifiedRuns.system.platform),
+          runnerId: newVerifiedRun.players[0].id,
+          runWeblink: newVerifiedRun.weblink,
+          runPlatform: await getPlatformName(newVerifiedRun.system.platform),
         });
       }
     }

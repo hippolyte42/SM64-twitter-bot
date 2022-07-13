@@ -12,14 +12,12 @@ const {
 
 const isTwitterActivated = process.env.IS_TWITTER_ACTIVATED === "true";
 
-const client =
-  isTwitterActivated &&
-  new Twitter({
-    appKey,
-    appSecret,
-    accessToken,
-    accessSecret,
-  });
+const client = new Twitter({
+  appKey,
+  appSecret,
+  accessToken,
+  accessSecret,
+});
 
 export const sendNewWorldRecordTweet = async (
   category: string,
@@ -28,6 +26,7 @@ export const sendNewWorldRecordTweet = async (
   top1RunLink: string,
   top1Twitter: string | undefined
 ) => {
+  console.log("sendNewWorldRecordTweet");
   if (isTwitterActivated) {
     console.log(`Super Mario 64 ${category} World Record! Congratulation to ${
       top1Twitter || top1Name
@@ -50,6 +49,7 @@ export const sendNewNoteworthyRunTweet = async (
   runPlatform: string,
   runnerTwitter: string | undefined
 ) => {
+  console.log("sendNewNoteworthyRunTweet");
   if (isTwitterActivated) {
     console.log(
       `Congrats to ${
@@ -65,6 +65,7 @@ export const sendNewNoteworthyRunTweet = async (
 };
 
 export const sendNewReleaseTweet = async () => {
+  console.log("sendNewReleaseTweet");
   if (isTwitterActivated) {
     console.log(`I just got updated: 🤖
     - now tweet new noteworthy runs from selected platforms & categories
