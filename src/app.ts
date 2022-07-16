@@ -21,11 +21,11 @@ const main = async () => {
   while (true) {
     console.log("new interval start", new Date().toISOString());
 
-    for (let category of Object.keys(categories)) {
+    for (let category of categories.keys()) {
       // newNoteworthyRuns section
       const newNoteworthyRuns = await getNewNoteworthyRuns(
-        categories[category],
-        db.noteworthyRunsTable[category]
+        categories.get(category),
+        db.noteworthyRuns.get(category)
       );
       for (let newNoteworthyRun of newNoteworthyRuns) {
         console.log(
@@ -34,7 +34,7 @@ const main = async () => {
           new Date().toISOString()
         );
         // update data
-        db.noteworthyRunsTable[category].push(newNoteworthyRun);
+        db.noteworthyRuns.get(category).push(newNoteworthyRun);
         const runnerTwitter = await getPlayerTwitter(newNoteworthyRun.runnerId);
         await sendNewNoteworthyRunTweet(
           category,
@@ -47,7 +47,7 @@ const main = async () => {
       }
 
       // WR section
-      const categoryData = await getCategory(categories[category].id);
+      const categoryData = await getCategory(categories.get(category).id);
       const top1RunData = (categoryData as any).data[0].runs[0].run;
       const top1Id = top1RunData.players[0].id;
 
@@ -57,18 +57,17 @@ const main = async () => {
       // new WR!
       if (
         isRunVerified &&
-        (db.wrTable[category].top1Name !== top1Name ||
-          db.wrTable[category].top1Time !== top1Time)
+        (db.wrRuns.get(category).top1Name !== top1Name ||
+          db.wrRuns.get(category).top1Time !== top1Time)
       ) {
         console.log(
           "New world record!",
-          isRunVerified,
           top1Name,
           top1Time,
           new Date().toISOString()
         );
         // update data
-        db.wrTable[category] = { top1Name, top1Time };
+        db.wrRuns.set(category, { top1Name, top1Time });
 
         const top1RunLink = top1RunData.weblink;
         const top1Twitter = await getPlayerTwitter(top1Id);

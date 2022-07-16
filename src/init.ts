@@ -12,43 +12,29 @@ export type CategoryData = {
   top1Time: string;
 };
 
-export type WRTable = {
-  [name in Category]: CategoryData;
-};
+const wrRuns = new Map<Category, CategoryData>();
+wrRuns.set("120 Star", {
+  top1Name: "",
+  top1Time: "",
+});
+wrRuns.set("70 Star", {
+  top1Name: "",
+  top1Time: "",
+});
+wrRuns.set("16 Star", {
+  top1Name: "",
+  top1Time: "",
+});
+wrRuns.set("1 Star", {
+  top1Name: "",
+  top1Time: "",
+});
+wrRuns.set("0 Star", {
+  top1Name: "",
+  top1Time: "",
+});
 
-export type DB = {
-  wrTable: WRTable;
-  noteworthyRunsTable: NoteworthyRunsTable;
-};
-
-const wrTable: WRTable = {
-  "120 Star": {
-    top1Name: "",
-    top1Time: "",
-  },
-  "70 Star": {
-    top1Name: "",
-    top1Time: "",
-  },
-  "16 Star": {
-    top1Name: "",
-    top1Time: "",
-  },
-  "1 Star": {
-    top1Name: "",
-    top1Time: "",
-  },
-  "0 Star": {
-    top1Name: "",
-    top1Time: "",
-  },
-};
-
-export type NoteworthyRunsTable = {
-  [name in Category]: NoteworthyRunsData[];
-};
-
-export type NoteworthyRunsData = {
+export type NoteworthyRun = {
   runnerTime: string;
   runnerName: string;
   runnerId: string;
@@ -56,51 +42,50 @@ export type NoteworthyRunsData = {
   runPlatform: string;
 };
 
-const noteworthyRunsTable: NoteworthyRunsTable = {
-  "120 Star": [],
-  "70 Star": [],
-  "16 Star": [],
-  "1 Star": [],
-  "0 Star": [],
-};
+const noteworthyRuns = new Map<Category, NoteworthyRun[]>();
+noteworthyRuns.set("120 Star", []);
+noteworthyRuns.set("70 Star", []);
+noteworthyRuns.set("16 Star", []);
+noteworthyRuns.set("1 Star", []);
+noteworthyRuns.set("0 Star", []);
 
 export type CategoryInfo = {
   id: string;
   noteworthyTime: string;
 };
 
-export type Categories = {
-  [name in Category]: CategoryInfo;
+export const categories = new Map<Category, CategoryInfo>();
+categories.set("120 Star", {
+  id: "wkpoo02r", // match category with speedrun.com category id
+  noteworthyTime: "01:49:59",
+});
+categories.set("70 Star", { id: "7dgrrxk4", noteworthyTime: "50:59" });
+categories.set("16 Star", { id: "n2y55mko", noteworthyTime: "15:59" });
+categories.set("1 Star", { id: "7kjpp4k3", noteworthyTime: "07:39" });
+categories.set("0 Star", { id: "xk9gg6d0", noteworthyTime: "06:59" });
+
+export type DB = {
+  wrRuns: Map<Category, CategoryData>;
+  noteworthyRuns: Map<Category, NoteworthyRun[]>;
 };
 
-export const categories: Categories = {
-  "120 Star": {
-    id: "wkpoo02r", // match category with speedrun.com category id
-    noteworthyTime: "01:49:59",
-  },
-  "70 Star": { id: "7dgrrxk4", noteworthyTime: "50:59" },
-  "16 Star": { id: "n2y55mko", noteworthyTime: "15:59" },
-  "1 Star": { id: "7kjpp4k3", noteworthyTime: "07:39" },
-  "0 Star": { id: "xk9gg6d0", noteworthyTime: "06:59" },
-};
-
-const db: DB = { wrTable, noteworthyRunsTable };
+const db: DB = { wrRuns, noteworthyRuns };
 
 export const initDb = async () => {
-  for (let category of Object.keys(categories)) {
-    // init and set noteworthyRunsTable
+  for (let category of categories.keys()) {
+    // init and set noteworthyRuns
     const newNoteworthyRuns = await getNewNoteworthyRuns(
-      categories[category],
-      db.noteworthyRunsTable[category]
+      categories.get(category),
+      db.noteworthyRuns.get(category)
     );
-    db.noteworthyRunsTable[category] = newNoteworthyRuns;
+    // db.noteworthyRuns.set(category, newNoteworthyRuns);
     console.log(
-      "db.noteworthyRunsTable[category]",
-      db.noteworthyRunsTable[category]
+      "db.noteworthyRuns.get(category)",
+      db.noteworthyRuns.get(category)
     );
 
     // init and set wrTable
-    const categoryData = await getCategory(categories[category].id);
+    const categoryData = await getCategory(categories.get(category).id);
     if (
       (categoryData as any).data[0].runs[0].run.status.status === "verified"
     ) {
@@ -108,11 +93,11 @@ export const initDb = async () => {
       const top1Name = await getPlayerName(top1Id);
       const top1Time = (categoryData as any).data[0].runs[0].run.times.realtime;
 
-      db.wrTable[category] = {
-        top1Name,
-        top1Time: ISO8601durationToPretty(top1Time),
-      };
-      console.log("db.wrTable[category]", db.wrTable[category]);
+      // db.wrRuns.set(category, {
+      //   top1Name,
+      //   top1Time: ISO8601durationToPretty(top1Time),
+      // });
+      console.log("db.wrRuns.get(category)", db.wrRuns.get(category));
     }
   }
 

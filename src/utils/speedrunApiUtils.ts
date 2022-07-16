@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import { v4 as uuidv4 } from "uuid";
-import { CategoryInfo, NoteworthyRunsData } from "../init";
+import { CategoryInfo, NoteworthyRun } from "../init";
 import { getTwitterSlugFromUri, ISO8601durationToDigital } from "./formatUtils";
 import { isShorterDuration } from "./timeUtils";
 
@@ -58,8 +58,8 @@ const getPlatformName = async (platformId: string) => {
 
 export const getNewNoteworthyRuns = async (
   categoryInfo: CategoryInfo,
-  NoteworthyRunsData: NoteworthyRunsData[]
-): Promise<NoteworthyRunsData[]> => {
+  NoteworthyRunsData: NoteworthyRun[]
+): Promise<NoteworthyRun[]> => {
   const url = `https://www.speedrun.com/api/v1/runs?status=verified&category=${
     categoryInfo.id
   }&orderby=verify-date&direction=desc&${uuidv4()}`;
@@ -71,7 +71,7 @@ export const getNewNoteworthyRuns = async (
 
   const categoryNewVerifiedRunsData = (await response.json()).data;
 
-  const newNoteworthyRuns: NoteworthyRunsData[] = [];
+  const newNoteworthyRuns: NoteworthyRun[] = [];
 
   for (let newVerifiedRun of categoryNewVerifiedRunsData) {
     const runnerTime: string | undefined =
