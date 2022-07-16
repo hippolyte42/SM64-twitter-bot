@@ -78,7 +78,7 @@ export const initDb = async () => {
       categories.get(category),
       db.noteworthyRuns.get(category)
     );
-    // db.noteworthyRuns.set(category, newNoteworthyRuns);
+    db.noteworthyRuns.set(category, newNoteworthyRuns);
     console.log(
       "db.noteworthyRuns.get(category)",
       db.noteworthyRuns.get(category)
@@ -93,10 +93,10 @@ export const initDb = async () => {
       const top1Name = await getPlayerName(top1Id);
       const top1Time = (categoryData as any).data[0].runs[0].run.times.realtime;
 
-      // db.wrRuns.set(category, {
-      //   top1Name,
-      //   top1Time: ISO8601durationToPretty(top1Time),
-      // });
+      db.wrRuns.set(category, {
+        top1Name,
+        top1Time: ISO8601durationToPretty(top1Time),
+      });
       console.log("db.wrRuns.get(category)", db.wrRuns.get(category));
     }
   }
