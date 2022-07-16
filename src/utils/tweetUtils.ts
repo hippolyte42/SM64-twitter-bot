@@ -28,12 +28,12 @@ export const sendNewWorldRecordTweet = async (
 ) => {
   console.log("sendNewWorldRecordTweet");
   if (isTwitterActivated) {
-    console.log(`Super Mario 64 ${category} World Record! Congratulation to ${
+    console.log(`Super Mario 64 ${category} World Record! Congrats to ${
       top1Twitter || top1Name
     } for finishing the game in ${top1Time} ✨🏰🥇
         Full run available ${top1RunLink}`);
     await client.v1.tweet(
-      `Super Mario 64 ${category} World Record! Congratulation to ${
+      `Super Mario 64 ${category} World Record! Congrats to ${
         top1Twitter || top1Name
       } for finishing the game in ${top1Time} ✨🏰🥇
         Full run available ${top1RunLink}`
