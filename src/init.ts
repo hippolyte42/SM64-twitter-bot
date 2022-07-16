@@ -1,9 +1,7 @@
+import { getCategory } from "./utils/apiUtils/getCategory";
+import { getNewNoteworthyRuns } from "./utils/apiUtils/getNewNoteworthyRuns";
+import { getPlayerName } from "./utils/apiUtils/getPlayerName";
 import { ISO8601durationToPretty } from "./utils/formatUtils";
-import {
-  getCategory,
-  getNewNoteworthyRuns,
-  getPlayerName,
-} from "./utils/speedrunApiUtils";
 
 export type Category = "120 Star" | "70 Star" | "16 Star" | "1 Star" | "0 Star";
 

@@ -1,15 +1,12 @@
 import { sleepSecs } from "twitter-api-v2/dist/v1/media-helpers.v1";
 import { categories, DB, initDb } from "./init";
+import { getCategory } from "./utils/apiUtils/getCategory";
+import { getNewNoteworthyRuns } from "./utils/apiUtils/getNewNoteworthyRuns";
+import { getPlayerName } from "./utils/apiUtils/getPlayerName";
+import { getPlayerTwitter } from "./utils/apiUtils/getPlayerTwitter";
 import { ISO8601durationToPretty } from "./utils/formatUtils";
 import {
-  getCategory,
-  getNewNoteworthyRuns,
-  getPlayerName,
-  getPlayerTwitter,
-} from "./utils/speedrunApiUtils";
-import {
   sendNewNoteworthyRunTweet,
-  sendNewReleaseTweet,
   sendNewWorldRecordTweet,
 } from "./utils/tweetUtils";
 
