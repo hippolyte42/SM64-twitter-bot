@@ -84,12 +84,10 @@ export const initDb = async () => {
 
     // init and set wrTable
     const categoryData = await getCategory(categories.get(category).id);
-    if (
-      (categoryData as any).data[0].runs[0].run.status.status === "verified"
-    ) {
-      const top1Id = (categoryData as any).data[0].runs[0].run.players[0].id;
+    if ((categoryData as any).runs[0].run.status.status === "verified") {
+      const top1Id = (categoryData as any).runs[0].run.players[0].id;
       const top1Name = await getPlayerName(top1Id);
-      const top1Time = (categoryData as any).data[0].runs[0].run.times.realtime;
+      const top1Time = (categoryData as any).runs[0].run.times.realtime;
 
       db.wrRuns.set(category, {
         top1Name,

@@ -45,7 +45,7 @@ const main = async () => {
 
       // WR section
       const categoryData = await getCategory(categories.get(category).id);
-      const top1RunData = (categoryData as any).data[0].runs[0].run;
+      const top1RunData = (categoryData as any).runs[0].run;
       const top1Id = top1RunData.players[0].id;
 
       const top1Name = await getPlayerName(top1Id);

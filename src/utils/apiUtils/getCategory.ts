@@ -9,7 +9,7 @@ export const getCategory = async (categoryId: string) => {
     return;
   }
 
-  const categoryData = await response.json();
+  const categoryData = (await response.json()).data[0];
 
   return categoryData;
 };
