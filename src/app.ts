@@ -79,6 +79,7 @@ const main = async () => {
       }
     }
     await sleepSecs(30);
+    console.log("post interval db", db);
   }
 };
 

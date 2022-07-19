@@ -40,27 +40,32 @@ export type NoteworthyRun = {
   runPlatform: string;
 };
 
-const noteworthyRuns = new Map<Category, NoteworthyRun[]>();
-noteworthyRuns.set("120 Star", []);
-noteworthyRuns.set("70 Star", []);
-noteworthyRuns.set("16 Star", []);
-noteworthyRuns.set("1 Star", []);
-noteworthyRuns.set("0 Star", []);
+const noteworthyRuns = new Map<Category, NoteworthyRun[]>([
+  ["120 Star", []],
+  ["70 Star", []],
+  ["16 Star", []],
+  ["1 Star", []],
+  ["0 Star", []],
+]);
 
 export type CategoryInfo = {
   id: string;
   noteworthyTime: string;
 };
 
-export const categories = new Map<Category, CategoryInfo>();
-categories.set("120 Star", {
-  id: "wkpoo02r", // match category with speedrun.com category id
-  noteworthyTime: "01:49:59",
-});
-categories.set("70 Star", { id: "7dgrrxk4", noteworthyTime: "50:59" });
-categories.set("16 Star", { id: "n2y55mko", noteworthyTime: "15:59" });
-categories.set("1 Star", { id: "7kjpp4k3", noteworthyTime: "07:39" });
-categories.set("0 Star", { id: "xk9gg6d0", noteworthyTime: "06:59" });
+export const categories = new Map<Category, CategoryInfo>([
+  [
+    "120 Star",
+    {
+      id: "wkpoo02r", // match category with speedrun.com category id
+      noteworthyTime: "01:49:59",
+    },
+  ],
+  ["70 Star", { id: "7dgrrxk4", noteworthyTime: "50:59" }],
+  ["16 Star", { id: "n2y55mko", noteworthyTime: "15:59" }],
+  ["1 Star", { id: "7kjpp4k3", noteworthyTime: "07:39" }],
+  ["0 Star", { id: "xk9gg6d0", noteworthyTime: "06:59" }],
+]);
 
 export type DB = {
   wrRuns: Map<Category, CategoryData>;
